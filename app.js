@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-const runEmpMan = () => {
+const runEmployeeManager = () => {
   inquirer
     .prompt({
       name: 'main',
@@ -22,16 +22,16 @@ const runEmpMan = () => {
     .then((chosen) => {
       switch(chosen.main) {
         case 'View':
-          viewFunction();
+          viewFunction()
         break;
         case 'Add':
-          addFunction();
+          addFunction()
         break;
         case 'Update':
-          updateFunction();
+          updateFunction()
         break;
         case 'Delete':
-          deleteFunction();
+          deleteFunction()
         break;
     
         default:
@@ -41,6 +41,54 @@ const runEmpMan = () => {
     })
 }
 
+const viewFunction = () => {
+  inquirer
+    .prompt({
+      name: 'view',
+      type: 'list',
+      message: 'What data do you want to view?',
+      choices: ['Department', 'Role', 'Employee', 'Back']
+    })
+    .then((chosen) => {
+      switch(chosen.view) {
+        case 'Department':
+          viewDepartment()
+        break;
+        case 'Role':
+          viewRole()
+        break;
+        case 'Employee':
+          viewEmployee()
+        break;
+
+        default:
+          runEmployeeManager()
+      }
+    })
+}
+
+const viewDepartment = () => {
+  connection.query('SELECT * FROM department', (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    runEmployeeManager();
+  })
+}
+
+const viewRole = () => {
+  connection.query('SELECT * FROM role', (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    runEmployeeManager();
+  })
+}
+const viewEmployee = () => {
+  connection.query('SELECT * FROM employee', (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    runEmployeeManager();
+  })
+}
 
 
 
@@ -49,6 +97,6 @@ const runEmpMan = () => {
 connection.connect((err) => {
   if (err) throw err;
   console.log("Welcome to Employee Manager App");
-  runEmpMan();
+  runEmployeeManager();
 })
 
