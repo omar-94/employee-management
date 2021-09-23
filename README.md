@@ -2,14 +2,18 @@
 ![Github License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Description
+Employee Management is a node application allowing the user to keep track of employee information.
+![Employee Management Node App](./assets/mysql.gif)
 
 
 ## Links
-- [Live Application]()
-- [GitHub Repo]()
+- [Video](https://watch.screencastify.com/v/fCK8i3tR3L1igDIAhdHX)
+- [GitHub Repo](https://github.com/omar-94/employee-management)
 
 ## Technologies
-- 
+- Node
+- Inquirer
+- MySQL
 
 
 ## Contact 
