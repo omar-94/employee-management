@@ -90,9 +90,112 @@ const viewEmployee = () => {
   })
 }
 
+const addFunction = () => {
+  inquirer
+    .prompt({
+      name: 'view',
+      type: 'list',
+      message: 'What data do you want to add?',
+      choices: ['Department', 'Role', 'Employee', 'Back']
+    })
+    .then((chosen) => {
+      switch(chosen.view) {
+        case 'Department':
+          addDepartment()
+        break;
+        case 'Role':
+          addRole()
+        break;
+        case 'Employee':
+          addEmployee()
+        break;
 
+        default:
+          runEmployeeManager()
+      }
+    })
+}
 
+const addDepartment = () => {
+  inquirer
+    .prompt(
+      {
+        name: 'name',
+        type: 'input',
+        message: "What department would you like to add?"
+      })
+    .then((answer) => {
+      const query = 'INSERT INTO department SET ?';
+      connection.query(query, answer, (err, res) => {
+        if (err) throw err;
+        console.log(`${answer.name} was added to departments.`);
+        runEmployeeManager();
+      })  
+    })
+}
 
+const addRole = () => {
+  inquirer
+    .prompt([
+      {
+        name: 'title',
+        type: 'input',
+        message: "What is the new role title?"
+      },
+      {
+        name: 'salary',
+        type: 'input',
+        message: "What is the new role salary?"
+      },
+      {
+        name: 'department_id',
+        type: 'input',
+        message: "What is the new role's department ID?"
+      }
+    ])
+    .then((answer) => {
+      const query = 'INSERT INTO role SET ?';
+      connection.query(query, answer, (err, res) => {
+        if (err) throw err;
+        console.log(`${answer.title} was added to roles.`); 
+        runEmployeeManager(); 
+      })
+    })
+}
+
+const addEmployee = () => {
+  inquirer
+    .prompt([
+      {
+        name: 'first_name',
+        type: 'input',
+        message: "What is the employee's first name?"
+      },
+      {
+        name: 'last_name',
+        type: 'input',
+        message: "What is the employee's last name?"
+      },
+      {
+        name: 'role_id',
+        type: 'input',
+        message: "What is the employee's role ID?"
+      },
+      {
+        name: 'manager_id',
+        type: 'input',
+        message: "What is the employee's manager ID?"
+      }
+    ])
+    .then((answer) => {
+      const query = 'INSERT INTO employee SET ?';
+      connection.query(query, answer, (err, res) => {
+        if (err) throw err;
+        console.log(`${answer.first_name} was added to employees.`);
+        runEmployeeManager();
+      })
+    })
+}
 
 connection.connect((err) => {
   if (err) throw err;
